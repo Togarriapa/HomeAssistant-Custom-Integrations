@@ -6,7 +6,7 @@
       "repository": "Togarriapa/HomeAssistant-Cast-Metadata-Controls",
       "category": "integration",
       "domain": "cast_attribute_sensors",
-      "description": "Lazily exposes all native Google Cast metadata and adds Cast receiver controls plus native TV power, Android/Google TV app selection, HDMI/input selection, volume, mute, seeking, and remote controls.",
+      "description": "Creates compact integration-owned Cast and TV controller devices with power, playback, volume, corrected seeking, Android/Google TV app selection, HDMI/input selection, and lazily created Cast metadata sensors.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration"
     }
   ]
