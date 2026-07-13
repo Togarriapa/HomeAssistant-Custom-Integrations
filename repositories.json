@@ -6,7 +6,8 @@
       "repository": "Togarriapa/HomeAssistant-Cast-Metadata-Controls",
       "category": "integration",
       "domain": "cast_attribute_sensors",
-      "description": "Creates compact integration-owned Cast and TV controller devices with power, playback, volume, corrected seeking, Android/Google TV app selection, HDMI/input selection, and lazily created Cast metadata sensors.",
+      "version": "7.0.0",
+      "description": "Unifies Google Cast, Android/Google TV, ADB, and manufacturer media players into one controller and one device per physical TV or Cast device, with lazy metadata sensors, app/input selection, corrected seeking, and explicit grouping when automatic matching is insufficient.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration"
     }
   ]
