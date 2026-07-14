@@ -6,16 +6,16 @@
       "repository": "Togarriapa/HomeAssistant-Cast-Metadata-Controls",
       "category": "integration",
       "domain": "cast_attribute_sensors",
-      "version": "7.1.0",
-      "description": "Unifies Google Cast, Android/Google TV, ADB, manufacturer media players, inputs, apps, metadata, persistent physical identities, capability routing, health diagnostics, and Repairs into one controller per physical device.",
+      "version": "7.2.0",
+      "description": "Unifies Google Cast, Android/Google TV, ADB, manufacturer media players, inputs, apps, metadata, persistent physical identities, capability routing, app management, activities, Wake-on-LAN, transition events, health diagnostics, and Repairs into one controller per physical device.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration"
     },
     {
       "name": "Unified TV Card",
       "repository": "Togarriapa/HomeAssistant-Unified-TV-Card",
       "category": "plugin",
-      "version": "1.0.0",
-      "description": "Responsive Home Assistant TV controller card with dynamic app and input dropdowns, mute beside volume, playback, relative seeking, Android TV remote controls, artwork, quick apps, and diagnostics.",
+      "version": "1.1.0",
+      "description": "Container-responsive Home Assistant TV controller card with persistent dynamic app and input dropdowns, managed favourites, activities, mute beside volume, playback, remote controls, artwork, health, and diagnostics.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin"
     }
   ]
