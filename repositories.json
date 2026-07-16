@@ -6,8 +6,8 @@
       "repository": "Togarriapa/HomeAssistant-Cast-Metadata-Controls",
       "category": "integration",
       "domain": "cast_attribute_sensors",
-      "version": "7.4.0",
-      "description": "Unifies Cast, Android/Google TV, ADB and manufacturer media players into one normal Home Assistant device per physical TV, with persistent identity, native model/area inheritance, capability routing, dynamic metadata, apps, inputs, activities, Wake-on-LAN, diagnostics, Repairs and opt-in positive-detection YouTube ad skipping.",
+      "version": "7.4.1",
+      "description": "Unifies Cast, Android/Google TV, ADB, DLNA renderer and manufacturer media players into one normal Home Assistant device per physical TV, with persistent identity, conservative Sony BRAVIA consolidation, capability routing, dynamic metadata, apps, inputs, activities, Wake-on-LAN, diagnostics, Repairs and opt-in positive-detection YouTube ad skipping.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration"
     },
     {
