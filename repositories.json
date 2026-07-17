@@ -14,8 +14,8 @@
       "name": "Unified TV Card",
       "repository": "Togarriapa/HomeAssistant-Unified-TV-Card",
       "category": "plugin",
-      "version": "1.2.0",
-      "description": "Container-responsive TV controller card with grouped dynamic TV/Cast app selection, a separate input selector, managed favourites, activities, mute beside volume, playback, remote controls, artwork, diagnostics and auto-discovered YouTube ad-skip controls. Compatible with backend V8 because controller and sensor entity IDs are preserved.",
+      "version": "1.2.1",
+      "description": "Container-responsive TV controller card with grouped dynamic TV/Cast app selection, a separate input selector, managed favourites, activities, mute beside volume, playback, remote controls, artwork, diagnostics and auto-discovered YouTube ad-skip controls. Version 1.2.1 verifies V8 compatibility and adds self-healing full GitHub releases for reliable HACS update discovery.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin"
     }
   ]
