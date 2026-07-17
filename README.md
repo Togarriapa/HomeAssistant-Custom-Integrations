@@ -9,7 +9,7 @@ Each installable project lives in its **own public repository** so HACS can inst
 | Project | Type | Repository | HACS |
 |---|---|---|---|
 | Cast Metadata & TV Controls 8.0.0 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
-| Unified TV Card 1.2.0 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
+| Unified TV Card 1.2.1 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
 
 ## Recommended installation order
 
@@ -50,7 +50,7 @@ If an update does not appear:
 3. Use **Redownload** when local HACS metadata is stale.
 4. Restart Home Assistant after integration updates and hard-refresh the browser after dashboard-card updates.
 
-The backend V8 release lowers its accidental Home Assistant 2026.7 compatibility floor to 2025.12 and publishes a verified full GitHub release, allowing HACS to expose the update on compatible installations.
+The backend V8 release lowers its accidental Home Assistant 2026.7 compatibility floor to 2025.12 and publishes a verified full GitHub release, allowing HACS to expose the update on compatible installations. The card 1.2.1 release uses the same self-healing full-release approach.
 
 ## Machine-readable catalogue
 
