@@ -8,15 +8,24 @@ Each installable project lives in its **own public repository** so HACS can inst
 
 | Project | Type | Repository | HACS |
 |---|---|---|---|
-| Cast Metadata & TV Controls 7.2.0 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
-| Unified TV Card 1.1.0 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
+| Cast Metadata & TV Controls 8.0.0 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
+| Unified TV Card 1.2.0 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
 
 ## Recommended installation order
 
 1. Install **Cast Metadata & TV Controls**.
 2. Restart Home Assistant and add the integration.
-3. Install **Unified TV Card**.
-4. Add the card to a dashboard and select one of the generated controller entities.
+3. Open **Settings → Devices & services → Cast Metadata & TV Controls → Configure**.
+4. Use **Review detected physical devices** to inspect automatic grouping.
+5. When two entries represent the same television, use **Merge duplicate physical devices**, select both generated controller devices, and save.
+6. Install **Unified TV Card**.
+7. Add the card to a dashboard and select the surviving unified controller entity.
+
+## HACS update tracking
+
+HACS tracks each repository independently. Version 8 uses a full GitHub release and supports Home Assistant 2025.12 or newer. If an update does not immediately appear, reload HACS data or restart Home Assistant; do not add the repository a second time.
+
+The collection repository is only a catalogue. Updates come from the individual integration and dashboard repositories.
 
 ## Hybrid repository structure
 
@@ -28,7 +37,7 @@ HomeAssistant-Another-Integration       ← future repository
 ...
 ```
 
-HACS manages each repository independently. Integration repositories contain one directory under `custom_components/`; dashboard repositories contain their installable JavaScript bundle.
+Integration repositories contain one directory under `custom_components/`; dashboard repositories contain their installable JavaScript bundle.
 
 HACS does not bulk-import an arbitrary third-party collection. Add each repository once through its **Open in HACS** link, after which HACS tracks updates separately.
 
