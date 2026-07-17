@@ -6,8 +6,8 @@
       "repository": "Togarriapa/HomeAssistant-Cast-Metadata-Controls",
       "category": "integration",
       "domain": "cast_attribute_sensors",
-      "version": "7.4.2",
-      "description": "Unifies Cast, Android/Google TV, ADB, DLNA renderer and manufacturer media players into one normal Home Assistant device per physical TV, with safe Sony BRAVIA/MediaRenderer consolidation, explicit manual physical-device merging, persistent identity, capability routing, dynamic metadata, apps, inputs, activities, Wake-on-LAN, diagnostics, Repairs and opt-in positive-detection YouTube ad skipping.",
+      "version": "8.0.0",
+      "description": "Local-first unified TV/Cast controller with one Home Assistant device per physical TV, automatic discovery, a first-class duplicate-device merge wizard, advanced native-source grouping, persistent identity, capability routing, dynamic metadata, managed apps and inputs, activities, Wake-on-LAN, diagnostics, Repairs, transition events and opt-in positive-detection YouTube ad skipping.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration"
     },
     {
@@ -15,7 +15,7 @@
       "repository": "Togarriapa/HomeAssistant-Unified-TV-Card",
       "category": "plugin",
       "version": "1.2.0",
-      "description": "Container-responsive TV controller card with grouped dynamic TV/Cast app selection, a separate input selector, managed favourites, activities, mute beside volume, playback, remote controls, artwork, diagnostics and auto-discovered YouTube ad-skip controls.",
+      "description": "Container-responsive TV controller card with grouped dynamic TV/Cast app selection, a separate input selector, managed favourites, activities, mute beside volume, playback, remote controls, artwork, diagnostics and auto-discovered YouTube ad-skip controls. Compatible with backend V8 because controller and sensor entity IDs are preserved.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin"
     }
   ]
