@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv bashio
+set -euo pipefail
+
+bashio::log.info "Starting Home Assistant GitOps Sync"
+exec python3 /opt/gitops-sync/main.py
