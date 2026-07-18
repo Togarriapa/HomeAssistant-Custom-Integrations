@@ -8,28 +8,33 @@ Each installable project lives in its **own public repository** so HACS can inst
 
 | Project | Type | Repository | HACS |
 |---|---|---|---|
-| Cast Metadata & TV Controls 8.2.0 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
+| Cast Metadata & TV Controls 8.3.0 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
 | Unified TV Card 1.3.0 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
 
 ## Recommended installation order
 
 1. Install or update **Cast Metadata & TV Controls**.
 2. Restart Home Assistant and add/open the integration.
-3. Under **Configure**, review the detected physical devices and merge any duplicate controller devices.
-4. Install or update **Unified TV Card**.
-5. Hard-refresh the browser and select the surviving unified controller entity in the card.
+3. Under **Configure**, open **Configure physical device entities**.
+4. For each TV, select every `media_player`, `remote`, and restart `button` entity that belongs to that physical device.
+5. Keep provider selection automatic unless several selected entities provide the same capability and the result is ambiguous.
+6. Install or update **Unified TV Card**, hard-refresh the browser, and select the unified controller entity.
 
-## V8 duplicate-device workflow
+## V8 physical-device workflow
 
-Cast Metadata & TV Controls V8 provides a first-class configuration wizard:
+Cast Metadata & TV Controls 8.3.0 makes the configured physical-device inventory authoritative:
 
-**Settings → Devices & services → Cast Metadata & TV Controls → Configure → Merge duplicate physical devices**
+**Settings → Devices & services → Cast Metadata & TV Controls → Configure → Configure physical device entities**
 
-Select the duplicate controller devices that represent the same TV. The integration expands them into their native BRAVIA, MediaRenderer, Android TV Remote, ADB, Cast, and manufacturer entities, migrates their settings, reloads, and cleans the obsolete generated device.
+Select all supported entities that represent one real device. The integration creates or updates the persistent physical group and then chooses the best provider for each capability from that inventory.
 
-Version 8.2.0 activates the hardware-evidence and registry-reconciliation layer at startup, safely links companion Android TV Remote entities and media players, restores Home/Back/Settings/directional commands and native application launch, deduplicates repeated Cast receivers, and adds controller/source artwork fallbacks.
+Navigation and restart providers are selected generically using entity domain, availability, device association, config entry, area, device class, and name evidence. **Override entity providers** is available only for ambiguous installations.
 
-Unified TV Card 1.3.0 consumes the backend remote capability, resolves relative Home Assistant artwork URLs, searches all grouped source entities for media artwork, and reports the actual service error when an action fails.
+Remote buttons use logical commands such as `HOME`, `BACK`, `SETTINGS`, and `DPAD_CENTER`. When a remote provider expects different values, configure them under **Configure remote commands**. Provider-specific commands remain configuration data rather than hardcoded manufacturer profiles.
+
+Applications and physical inputs are discovered from the selected media-player entities. Native and Cast versions of the same service remain separate routes.
+
+Unified TV Card 1.3.0 consumes the backend's `remote_available` capability, resolves relative Home Assistant artwork URLs, searches all grouped source entities for artwork, and reports actual service failures.
 
 ## Hybrid repository structure
 
@@ -57,7 +62,7 @@ If an update does not appear:
    - macOS: `Cmd + Shift + R`
    - Windows/Linux: `Ctrl + F5`
 
-Backend 8.2.0 and card 1.3.0 both use matching semantic versions, source metadata, tags, and full latest GitHub releases so HACS has a real version transition to discover.
+Backend 8.3.0 and card 1.3.0 use matching source metadata, tags, and full latest GitHub releases so HACS can discover their updates independently.
 
 ## Machine-readable catalogue
 
