@@ -25,7 +25,7 @@ jobs:
 
       - name: Reject executable or Python syntax errors
         run: |
-          python3 -m py_compile gitops_sync/app/main.py
+          python3 -m py_compile gitops_sync/app/main.py gitops_sync/app/bootstrap.py
           test "$(head -n 1 gitops_sync/rootfs/etc/services.d/gitops-sync/run)" = "#!/usr/bin/with-contenv bashio"
 
       - name: Validate YAML files
