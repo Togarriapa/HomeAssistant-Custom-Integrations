@@ -1,8 +1,8 @@
-# Tomás's Home Assistant Custom Integrations
+# Tomás's Home Assistant Projects
 
-Central index for Home Assistant custom integrations and dashboard components maintained under [`Togarriapa`](https://github.com/Togarriapa).
+Central catalogue for Home Assistant integrations, dashboard components, and supervised apps maintained under [`Togarriapa`](https://github.com/Togarriapa).
 
-Each installable project lives in its **own public repository** so HACS can install and update it independently. This collection provides one place to discover them and open the correct HACS installation link.
+HACS integrations and dashboard components live in independent public repositories so they can be installed and updated separately. Supervised apps can be published directly from this repository through its root `repository.yaml`.
 
 ## HACS repositories
 
@@ -11,7 +11,29 @@ Each installable project lives in its **own public repository** so HACS can inst
 | Cast Metadata & TV Controls 8.3.0 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
 | Unified TV Card 1.3.0 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
 
-## Recommended installation order
+## Home Assistant apps
+
+### Home Assistant GitOps Sync 0.1.0
+
+A supervised app that synchronizes declarative Home Assistant configuration with a private GitHub repository using a protected-branch and pull-request workflow.
+
+Safety controls include:
+
+- explicit path allowlisting and sensitive-file blocking;
+- GitHub status/check gating before inbound deployment;
+- exact Home Assistant version pinning for CI validation;
+- Supervisor backup and separate file rollback before changes;
+- Supervisor configuration validation before restart;
+- authenticated post-restart health checks and automatic rollback;
+- local Home Assistant edits exported only to a dedicated PR branch.
+
+Install the app repository by adding:
+
+`https://github.com/Togarriapa/HomeAssistant-Custom-Integrations`
+
+See [`gitops_sync/DOCS.md`](gitops_sync/DOCS.md) before installation.
+
+## Recommended TV installation order
 
 1. Install or update **Cast Metadata & TV Controls**.
 2. Restart Home Assistant and add/open the integration.
@@ -36,23 +58,21 @@ Applications and physical inputs are discovered from the selected media-player e
 
 Unified TV Card 1.3.0 consumes the backend's `remote_available` capability, resolves relative Home Assistant artwork URLs, searches all grouped source entities for artwork, and reports actual service failures.
 
-## Hybrid repository structure
+## Repository structure
 
 ```text
-HomeAssistant-Custom-Integrations       ← collection and catalogue
+HomeAssistant-Custom-Integrations       ← catalogue and Home Assistant app repository
+└── gitops_sync                         ← supervised GitOps Sync app
 HomeAssistant-Cast-Metadata-Controls    ← HACS integration repository
 HomeAssistant-Unified-TV-Card           ← HACS dashboard repository
-HomeAssistant-Another-Integration       ← future repository
-...
+HomeAssistant_Repo                      ← private protected configuration repository
 ```
 
-HACS manages each repository independently. Integration repositories contain one directory under `custom_components/`; dashboard repositories contain their installable JavaScript bundle.
-
-HACS does not bulk-import an arbitrary third-party collection. Add each repository once through its **Open in HACS** link, after which HACS tracks updates separately.
+HACS manages each HACS repository independently. Home Assistant's app store reads `repository.yaml` and the app directory from this repository.
 
 ## Update troubleshooting
 
-If an update does not appear:
+If a HACS update does not appear:
 
 1. Open the relevant repository in HACS and select **Update information**.
 2. Confirm it was added under the correct category: Integration or Dashboard.
@@ -62,19 +82,10 @@ If an update does not appear:
    - macOS: `Cmd + Shift + R`
    - Windows/Linux: `Ctrl + F5`
 
-Backend 8.3.0 and card 1.3.0 use matching source metadata, tags, and full latest GitHub releases so HACS can discover their updates independently.
-
 ## Machine-readable catalogue
 
-`repositories.json` contains the same catalogue for scripts and future tooling.
-
-## Adding a future project
-
-1. Create a new public GitHub repository.
-2. Follow the HACS structure for the relevant category.
-3. Add validation, documentation, releases, and a license.
-4. Add the project to `repositories.json` and this README.
+`repositories.json` contains the HACS catalogue for scripts and future tooling.
 
 ## License
 
-The collection metadata is licensed under the MIT License. Each project repository has its own license.
+The collection metadata and GitOps Sync app are licensed under the MIT License. Each independent project repository has its own license.
