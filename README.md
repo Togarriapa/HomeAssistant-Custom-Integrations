@@ -8,8 +8,8 @@ Each installable project lives in its **own public repository** so HACS can inst
 
 | Project | Type | Repository | HACS |
 |---|---|---|---|
-| Cast Metadata & TV Controls 8.1.0 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
-| Unified TV Card 1.2.1 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
+| Cast Metadata & TV Controls 8.2.0 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
+| Unified TV Card 1.3.0 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
 
 ## Recommended installation order
 
@@ -17,7 +17,7 @@ Each installable project lives in its **own public repository** so HACS can inst
 2. Restart Home Assistant and add/open the integration.
 3. Under **Configure**, review the detected physical devices and merge any duplicate controller devices.
 4. Install or update **Unified TV Card**.
-5. Add the card to a dashboard and select the surviving unified controller entity.
+5. Hard-refresh the browser and select the surviving unified controller entity in the card.
 
 ## V8 duplicate-device workflow
 
@@ -27,7 +27,9 @@ Cast Metadata & TV Controls V8 provides a first-class configuration wizard:
 
 Select the duplicate controller devices that represent the same TV. The integration expands them into their native BRAVIA, MediaRenderer, Android TV Remote, ADB, Cast, and manufacturer entities, migrates their settings, reloads, and cleans the obsolete generated device.
 
-Version 8.1.0 additionally feeds the matcher with the native device manufacturer, model, hardware name, connections, and area. After a merge, it reconciles enabled and disabled integration entities onto the surviving device and removes stale controller entities and empty integration-owned device records.
+Version 8.2.0 activates the hardware-evidence and registry-reconciliation layer at startup, safely links companion Android TV Remote entities and media players, restores Home/Back/Settings/directional commands and native application launch, deduplicates repeated Cast receivers, and adds controller/source artwork fallbacks.
+
+Unified TV Card 1.3.0 consumes the backend remote capability, resolves relative Home Assistant artwork URLs, searches all grouped source entities for media artwork, and reports the actual service error when an action fails.
 
 ## Hybrid repository structure
 
@@ -50,9 +52,12 @@ If an update does not appear:
 1. Open the relevant repository in HACS and select **Update information**.
 2. Confirm it was added under the correct category: Integration or Dashboard.
 3. Use **Redownload** when local HACS metadata is stale.
-4. Restart Home Assistant after integration updates and hard-refresh the browser after dashboard-card updates.
+4. Restart Home Assistant after integration updates.
+5. Hard-refresh the browser after dashboard-card updates:
+   - macOS: `Cmd + Shift + R`
+   - Windows/Linux: `Ctrl + F5`
 
-The backend 8.1.0 release is a new semantic version with a matching manifest, Python version constant, changelog entry, tag, and full latest-release publication workflow. This gives HACS a real version transition to discover instead of relying on repaired metadata for the existing 8.0.0 tag. The card 1.2.1 release uses the same self-healing full-release approach.
+Backend 8.2.0 and card 1.3.0 both use matching semantic versions, source metadata, tags, and full latest GitHub releases so HACS has a real version transition to discover.
 
 ## Machine-readable catalogue
 
