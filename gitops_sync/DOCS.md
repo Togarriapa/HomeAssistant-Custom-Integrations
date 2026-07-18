@@ -19,11 +19,13 @@ No automation can mathematically guarantee that a configuration can never fail. 
 
 ## Current scope
 
-Version 0.1.0 safely tracks YAML-oriented configuration such as:
+Version 0.1.0 safely tracks UTF-8 declarative configuration such as:
 
 - `configuration.yaml`
 - UI-created `automations.yaml`, `scripts.yaml`, and `scenes.yaml`
-- packages, blueprints, themes, YAML dashboards, and `www`
+- packages, blueprints, themes, and YAML dashboards
+
+Binary assets are intentionally outside the default v0.1.0 scope. They can be added later through a separately validated asset channel without weakening configuration validation.
 
 Home Assistant's `.storage` directory is intentionally blocked. It contains internal registries, authentication data, integration credentials, refresh tokens, and implementation-specific state. Treating those JSON files as ordinary mergeable Git configuration can corrupt registries or leak credentials.
 
