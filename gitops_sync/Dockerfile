@@ -13,7 +13,7 @@ COPY app /opt/gitops-sync
 COPY rootfs /
 
 RUN chmod 0755 /etc/services.d/gitops-sync/run \
-    && python3 -m py_compile /opt/gitops-sync/main.py
+    && python3 -m py_compile /opt/gitops-sync/main.py /opt/gitops-sync/bootstrap.py
 
 LABEL \
     org.opencontainers.image.title="Home Assistant App: GitOps Sync" \
