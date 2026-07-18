@@ -88,6 +88,8 @@ class BootstrapEngine(Engine):
                 "Bootstrapping from the existing Home Assistant configuration into %s",
                 self.settings.outbound_branch,
             )
+            # Force a first export even if v0.1.0 previously cached the local hash.
+            self.state.pop("last_local_hash", None)
             self.sync_outbound()
             self.state["last_remote_sha"] = remote_sha
             self.state["bootstrap_complete"] = True
@@ -112,6 +114,8 @@ class BootstrapEngine(Engine):
             "Bootstrapping from GitHub. The validated protected branch will replace matching "
             "managed Home Assistant paths after backup and configuration checks."
         )
+        # Force validation/application even if v0.1.0 cached the remote SHA.
+        self.state.pop("last_remote_sha", None)
         self.sync_inbound()
         if self.state.get("last_remote_sha") != remote_sha:
             raise SyncError(
