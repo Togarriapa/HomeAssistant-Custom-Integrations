@@ -1,5 +1,5 @@
 name: Home Assistant GitOps Sync
-version: "0.1.0"
+version: "0.1.1"
 slug: gitops_sync
 description: Safely synchronize declarative Home Assistant configuration with GitHub using validation, backups, pull requests, and automatic file rollback.
 url: "https://github.com/Togarriapa/HomeAssistant-Custom-Integrations/tree/main/gitops_sync"
@@ -22,6 +22,7 @@ options:
   branch: main
   outbound_branch: ha-sync
   github_token: ""
+  initial_source: home_assistant
   sync_interval: 60
   inbound_enabled: true
   outbound_enabled: true
@@ -48,6 +49,7 @@ schema:
   branch: str
   outbound_branch: str
   github_token: password
+  initial_source: str
   sync_interval: int(30,3600)
   inbound_enabled: bool
   outbound_enabled: bool

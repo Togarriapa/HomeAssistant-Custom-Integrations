@@ -13,9 +13,11 @@ HACS integrations and dashboard components live in independent public repositori
 
 ## Home Assistant apps
 
-### Home Assistant GitOps Sync 0.1.0
+### Home Assistant GitOps Sync 0.1.1
 
 A supervised app that synchronizes declarative Home Assistant configuration with a private GitHub repository using a protected-branch and pull-request workflow.
+
+Version 0.1.1 adds an explicit first-run source of truth. Existing installations use `initial_source: home_assistant`, which exports the current live configuration to `ha-sync` before any protected GitHub branch can be applied.
 
 Safety controls include:
 

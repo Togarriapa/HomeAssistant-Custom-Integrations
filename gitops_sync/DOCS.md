@@ -19,13 +19,13 @@ No automation can mathematically guarantee that a configuration can never fail. 
 
 ## Current scope
 
-Version 0.1.0 safely tracks UTF-8 declarative configuration such as:
+Version 0.1.1 safely tracks UTF-8 declarative configuration such as:
 
 - `configuration.yaml`
 - UI-created `automations.yaml`, `scripts.yaml`, and `scenes.yaml`
 - packages, blueprints, themes, and YAML dashboards
 
-Binary assets are intentionally outside the default v0.1.0 scope. They can be added later through a separately validated asset channel without weakening configuration validation.
+Binary assets are intentionally outside the default scope. They can be added later through a separately validated asset channel without weakening configuration validation.
 
 Home Assistant's `.storage` directory is intentionally blocked. It contains internal registries, authentication data, integration credentials, refresh tokens, and implementation-specific state. Treating those JSON files as ordinary mergeable Git configuration can corrupt registries or leak credentials.
 
@@ -42,28 +42,39 @@ Create a fine-grained token restricted to the private configuration repository w
 
 Store it only in the app configuration. The app uses `GIT_ASKPASS`, keeps the clean repository URL in Git, masks the token from Git errors, and stores its local token file with mode `0600` inside private app data.
 
-## Installation
+## Installation for an existing Home Assistant
 
-1. Merge and publish this app repository branch.
-2. In Home Assistant, open **Settings → Apps → App store → Repositories**.
-3. Add `https://github.com/Togarriapa/HomeAssistant-Custom-Integrations`.
-4. Install **Home Assistant GitOps Sync**.
-5. Enter the token and keep the safe defaults initially.
-6. Start the app and inspect its logs.
+You do **not** initialize Git inside Home Assistant OS and you do not copy `/config` manually.
 
-## First synchronization
+1. In Home Assistant, open **Settings → Apps → App store → Repositories**.
+2. Add `https://github.com/Togarriapa/HomeAssistant-Custom-Integrations`.
+3. Install **Home Assistant GitOps Sync** version 0.1.1 or newer.
+4. Enter the fine-grained GitHub token.
+5. Keep `repository: Togarriapa/HomeAssistant_Repo`.
+6. Keep `initial_source: home_assistant` for an already-running installation.
+7. Keep `delete_removed: false` during initial adoption.
+8. Start the app and inspect its logs.
 
-The private configuration repository should contain the validation workflow supplied by this project.
+## First synchronization from an existing Home Assistant
 
-On first start:
+With `initial_source: home_assistant`, first start performs a one-time protected bootstrap:
 
-- The app sees the local configuration as changed.
-- It exports only the allowlisted files to `ha-sync`.
-- It records the exact installed Home Assistant version in `.ha-version`.
-- It opens a PR against `main`.
+- The protected `main` branch is inspected but is not applied to Home Assistant.
+- The app exports only the allowlisted live files to `ha-sync`.
+- Secrets, `.storage`, databases, logs, keys, and runtime files are excluded.
+- The exact installed Home Assistant version is written to `.ha-version`.
+- A pull request from `ha-sync` to `main` is opened.
 - GitHub Actions validates the exported configuration using the matching Home Assistant container version.
 - You review and merge the PR.
-- Only the validated merged commit is eligible for inbound application.
+- The merged, validated commit then becomes the protected synchronization baseline.
+
+This first export is forced even when v0.1.0 previously cached the local configuration hash.
+
+## Alternative bootstrap from GitHub
+
+Use `initial_source: github` only when the protected repository already contains the intended configuration and GitHub must replace the matching managed paths in Home Assistant.
+
+The app refuses this mode when the protected branch has no managed configuration. Before applying it creates a Supervisor backup and local rollback, checks the GitHub status, validates the files, runs the Home Assistant configuration check, and verifies health after restart.
 
 ## Recommended branch protection
 
@@ -80,6 +91,7 @@ Protect `main` in `Togarriapa/HomeAssistant_Repo`:
 - `repository`: private configuration repository in `owner/name` form.
 - `branch`: protected inbound branch, normally `main`.
 - `outbound_branch`: branch used for Home Assistant exports, normally `ha-sync`.
+- `initial_source`: one-time bootstrap authority; `home_assistant` for an existing installation or `github` for a repository-led restore.
 - `sync_interval`: polling period; minimum 30 seconds.
 - `inbound_enabled`: apply validated protected-branch changes.
 - `outbound_enabled`: export local changes to the PR branch.
