@@ -101,9 +101,11 @@ class Settings:
 
         return cls(
             repository=repository,
-            branch=str(raw.get("branch", "main")).strip(),
-            outbound_branch=str(raw.get("outbound_branch", "ha-sync")).strip(),
-            github_token=str(raw["github_token"]).strip(),
+            branch=_validate_branch(str(raw.get("branch", "main")).strip()),
+            outbound_branch=_validate_branch(
+                str(raw.get("outbound_branch", "ha-sync")).strip()
+            ),
+            github_token=_validate_token(str(raw["github_token"]).strip()),
             sync_interval=interval,
             inbound_enabled=bool(raw.get("inbound_enabled", True)),
             outbound_enabled=bool(raw.get("outbound_enabled", True)),
@@ -122,6 +124,25 @@ def _validate_relative_path(value: str) -> str:
     path = Path(value)
     if not value or path.is_absolute() or ".." in path.parts or value.startswith(".git"):
         raise SyncError(f"Invalid relative path: {value!r}")
+    return value
+
+
+def _validate_branch(value: str) -> str:
+    if (
+        not value
+        or value.startswith(("-", ".", "/"))
+        or value.endswith((".", "/", ".lock"))
+        or ".." in value
+        or "@{" in value
+        or any(character.isspace() or character in "~^:?*[\\" for character in value)
+    ):
+        raise SyncError(f"Invalid Git branch name: {value!r}")
+    return value
+
+
+def _validate_token(value: str) -> str:
+    if not value:
+        raise SyncError("github_token is required")
     return value
 
 
@@ -248,7 +269,13 @@ class Git:
         if self.run("diff", "--cached", "--quiet", check=False).returncode == 0:
             return False
         self.run("commit", "-m", message)
-        self.run("push", "--set-upstream", "origin", self.settings.outbound_branch)
+        self.run(
+            "push",
+            "--force-with-lease",
+            "--set-upstream",
+            "origin",
+            self.settings.outbound_branch,
+        )
         return True
 
 
@@ -464,6 +491,13 @@ class Engine:
         self.git.checkout_remote(self.settings.branch)
         self._validate_repository()
 
+        if not self._would_change_live():
+            self.state["last_remote_sha"] = remote_sha
+            self.state["last_local_hash"] = self._local_hash()
+            _save_state(self.state)
+            LOG.info("Inbound commit %s contains no effective managed changes", remote_sha)
+            return
+
         backup_slug = None
         if self.settings.backup_before_apply:
             backup_slug = self.supervisor.create_backup()
@@ -548,24 +582,74 @@ class Engine:
         )
 
     def _validate_repository(self) -> None:
-        for path, relative in self._iter_managed_files(REPO_DIR):
-            if self._ignored(relative):
-                raise SyncError(f"Forbidden path is present in managed content: {relative}")
-            if path.stat().st_size > 10 * 1024 * 1024:
-                raise SyncError(f"Managed file exceeds 10 MiB: {relative}")
-            data = path.read_bytes()
-            if b"\x00" in data:
-                raise SyncError(f"Binary managed file is forbidden: {relative}")
-            text = data.decode("utf-8")
-            if HIGH_RISK_TOKEN_RE.search(text) or HIGH_RISK_VALUE_RE.search(text):
-                raise SyncError(
-                    f"Possible plaintext credential detected in {relative}; use !secret"
-                )
-            if path.suffix.lower() in {".yaml", ".yml"}:
+        for managed in self.settings.managed_paths:
+            candidate = REPO_DIR / managed
+            if not candidate.exists():
+                continue
+            paths = [candidate] if candidate.is_file() or candidate.is_symlink() else candidate.rglob("*")
+            for path in paths:
+                if path.is_symlink():
+                    raise SyncError(f"Symlink is forbidden: {path.relative_to(REPO_DIR)}")
+                if not path.is_file():
+                    continue
+                relative = path.relative_to(REPO_DIR).as_posix()
+                if _matches_any(relative, FORBIDDEN_PATTERNS):
+                    raise SyncError(f"Forbidden path is present in repository: {relative}")
+                if _matches_any(relative, self.settings.ignore_patterns):
+                    continue
+                if path.stat().st_size > 10 * 1024 * 1024:
+                    raise SyncError(f"Managed file exceeds 10 MiB: {relative}")
+                data = path.read_bytes()
+                if b"\x00" in data:
+                    raise SyncError(f"Binary managed file is forbidden: {relative}")
                 try:
-                    list(yaml.compose_all(text))
-                except yaml.YAMLError as err:
-                    raise SyncError(f"Invalid YAML in {relative}: {err}") from err
+                    text = data.decode("utf-8")
+                except UnicodeDecodeError as err:
+                    raise SyncError(f"Non-UTF-8 managed file is forbidden: {relative}") from err
+                if HIGH_RISK_TOKEN_RE.search(text) or HIGH_RISK_VALUE_RE.search(text):
+                    raise SyncError(
+                        f"Possible plaintext credential detected in {relative}; use !secret"
+                    )
+                if path.suffix.lower() in {".yaml", ".yml"}:
+                    try:
+                        list(yaml.compose_all(text))
+                    except yaml.YAMLError as err:
+                        raise SyncError(f"Invalid YAML in {relative}: {err}") from err
+
+    def _would_change_live(self) -> bool:
+        for managed in self.settings.managed_paths:
+            source = REPO_DIR / managed
+            destination = LIVE_DIR / managed
+            if source.exists():
+                if not destination.exists():
+                    return True
+                if source.is_file() != destination.is_file():
+                    return True
+                if source.is_file():
+                    if source.read_bytes() != destination.read_bytes():
+                        return True
+                elif self._tree_hash(source, REPO_DIR) != self._tree_hash(
+                    destination, LIVE_DIR
+                ):
+                    return True
+            elif self.settings.delete_removed and destination.exists():
+                return True
+        return False
+
+    def _tree_hash(self, root: Path, base: Path) -> str:
+        digest = hashlib.sha256()
+        for path in sorted(root.rglob("*")):
+            if path.is_symlink():
+                raise SyncError(f"Symlink is forbidden: {path.relative_to(base)}")
+            if not path.is_file():
+                continue
+            relative = path.relative_to(base).as_posix()
+            if self._ignored(relative):
+                continue
+            digest.update(relative.encode("utf-8"))
+            digest.update(b"\0")
+            digest.update(path.read_bytes())
+        return digest.hexdigest()
 
     def _local_hash(self) -> str:
         digest = hashlib.sha256()
@@ -620,22 +704,32 @@ class Engine:
             destination = LIVE_DIR / managed
             if source.exists():
                 temporary = destination.with_name(destination.name + ".gitops-new")
-                if temporary.exists():
-                    if temporary.is_dir():
-                        shutil.rmtree(temporary)
-                    else:
-                        temporary.unlink()
+                previous = destination.with_name(destination.name + ".gitops-old")
+                for stale in (temporary, previous):
+                    if stale.exists():
+                        if stale.is_dir():
+                            shutil.rmtree(stale)
+                        else:
+                            stale.unlink()
                 temporary.parent.mkdir(parents=True, exist_ok=True)
                 if source.is_dir():
                     shutil.copytree(source, temporary, symlinks=False)
                 else:
                     shutil.copy2(source, temporary)
+
                 if destination.exists():
-                    if destination.is_dir():
-                        shutil.rmtree(destination)
+                    os.replace(destination, previous)
+                try:
+                    os.replace(temporary, destination)
+                except Exception:
+                    if previous.exists() and not destination.exists():
+                        os.replace(previous, destination)
+                    raise
+                if previous.exists():
+                    if previous.is_dir():
+                        shutil.rmtree(previous)
                     else:
-                        destination.unlink()
-                os.replace(temporary, destination)
+                        previous.unlink()
             elif self.settings.delete_removed and destination.exists():
                 if destination.is_dir():
                     shutil.rmtree(destination)
@@ -644,25 +738,17 @@ class Engine:
 
     def _export_managed_paths(self) -> None:
         for managed in self.settings.managed_paths:
-            source = LIVE_DIR / managed
             destination = REPO_DIR / managed
             if destination.exists():
                 if destination.is_dir():
                     shutil.rmtree(destination)
                 else:
                     destination.unlink()
-            if not source.exists():
-                continue
+
+        for source, relative in self._iter_managed_files(LIVE_DIR):
+            destination = REPO_DIR / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
-            if source.is_dir():
-                shutil.copytree(
-                    source,
-                    destination,
-                    symlinks=False,
-                    ignore=shutil.ignore_patterns(*self.settings.ignore_patterns),
-                )
-            else:
-                shutil.copy2(source, destination)
+            shutil.copy2(source, destination)
 
     def _prune_rollbacks(self) -> None:
         directories = sorted(
