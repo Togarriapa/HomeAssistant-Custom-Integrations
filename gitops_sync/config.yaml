@@ -39,7 +39,6 @@ options:
     - blueprints
     - themes
     - dashboards
-    - www
   ignore_patterns:
     - "*.tmp"
     - "*.swp"
