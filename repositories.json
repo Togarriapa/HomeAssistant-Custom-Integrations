@@ -6,8 +6,8 @@
       "repository": "Togarriapa/HomeAssistant-Cast-Metadata-Controls",
       "category": "integration",
       "domain": "cast_attribute_sensors",
-      "version": "8.2.0",
-      "description": "Local-first unified TV/Cast controller with one Home Assistant device per physical TV, automatic discovery, duplicate-device merging, persistent identity, capability routing, dynamic metadata, managed apps and inputs, activities, Wake-on-LAN, diagnostics, Repairs, transition events and opt-in positive-detection YouTube ad skipping. Version 8.2.0 activates hardware-evidence reconciliation, safely links companion Android TV Remote entities and media players, restores remote/native-app routing, deduplicates repeated Cast receivers, and adds source-level artwork fallbacks.",
+      "version": "8.3.0",
+      "description": "Local-first unified TV/Cast controller with one Home Assistant device per physical TV, automatic discovery, explicit physical-device entity inventories, duplicate-device merging, persistent identity, capability routing, dynamic metadata, managed apps and inputs, activities, Wake-on-LAN, diagnostics, Repairs, transition events and opt-in positive-detection YouTube ad skipping. Version 8.3.0 lets users associate every media player, remote and restart button with a physical device, then selects providers generically from those entities with optional overrides and user-defined logical remote commands instead of manufacturer-specific command profiles.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration"
     },
     {
