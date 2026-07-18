@@ -1,0 +1,63 @@
+name: Home Assistant GitOps Sync
+version: "0.1.0"
+slug: gitops_sync
+description: Safely synchronize declarative Home Assistant configuration with GitHub using validation, backups, pull requests, and automatic file rollback.
+url: "https://github.com/Togarriapa/HomeAssistant-Custom-Integrations/tree/main/gitops_sync"
+arch:
+  - aarch64
+  - amd64
+init: false
+startup: services
+boot: auto
+watchdog: true
+hassio_api: true
+hassio_role: manager
+homeassistant_api: true
+map:
+  - type: homeassistant_config
+    read_only: false
+    path: /homeassistant
+options:
+  repository: Togarriapa/HomeAssistant_Repo
+  branch: main
+  outbound_branch: ha-sync
+  github_token: ""
+  sync_interval: 60
+  inbound_enabled: true
+  outbound_enabled: true
+  auto_restart: true
+  backup_before_apply: true
+  require_github_checks: true
+  create_pull_request: true
+  delete_removed: false
+  managed_paths:
+    - configuration.yaml
+    - automations.yaml
+    - scripts.yaml
+    - scenes.yaml
+    - packages
+    - blueprints
+    - themes
+    - dashboards
+    - www
+  ignore_patterns:
+    - "*.tmp"
+    - "*.swp"
+    - ".DS_Store"
+schema:
+  repository: str
+  branch: str
+  outbound_branch: str
+  github_token: password
+  sync_interval: int(30,3600)
+  inbound_enabled: bool
+  outbound_enabled: bool
+  auto_restart: bool
+  backup_before_apply: bool
+  require_github_checks: bool
+  create_pull_request: bool
+  delete_removed: bool
+  managed_paths:
+    - str
+  ignore_patterns:
+    - str
