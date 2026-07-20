@@ -6,16 +6,16 @@
       "repository": "Togarriapa/HomeAssistant-Cast-Metadata-Controls",
       "category": "integration",
       "domain": "cast_attribute_sensors",
-      "version": "8.3.2",
-      "description": "Local-first unified TV/Cast controller with explicit physical-device entity inventories, automatic and manual capability routing, generic application/input discovery, one integration-owned controller per physical TV, diagnostics, activities, Wake-on-LAN and conservative YouTube ad skipping. Version 8.3.2 reissues the runtime fixes through a clean semantic-version transition and a verified deterministic HACS release asset.",
+      "version": "8.4.0",
+      "description": "Physical-device controller integration with generic provider routing and native application discovery.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration"
     },
     {
       "name": "Unified TV Card",
       "repository": "Togarriapa/HomeAssistant-Unified-TV-Card",
       "category": "plugin",
-      "version": "1.3.2",
-      "description": "Responsive physical-TV controller card with dynamic native/Cast applications, inputs, activities, playback, volume, remote navigation, artwork, diagnostics and YouTube ad-skip controls. Version 1.3.2 preserves the rebuilt controls while forcing a clean HACS update transition with a verified JavaScript release asset.",
+      "version": "1.4.0",
+      "description": "Responsive dashboard card with provider-aware controls and backend compatibility diagnostics.",
       "hacs_url": "https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin"
     }
   ]
