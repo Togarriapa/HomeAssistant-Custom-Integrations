@@ -8,8 +8,8 @@ Each installable project lives in its **own public repository** so HACS can inst
 
 | Project | Type | Repository | HACS |
 |---|---|---|---|
-| Cast Metadata & TV Controls 8.3.1 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
-| Unified TV Card 1.3.1 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
+| Cast Metadata & TV Controls 8.3.2 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
+| Unified TV Card 1.3.2 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
 
 ## Recommended installation order
 
@@ -22,7 +22,7 @@ Each installable project lives in its **own public repository** so HACS can inst
 
 ## V8 physical-device workflow
 
-Cast Metadata & TV Controls 8.3.1 makes the configured physical-device inventory authoritative:
+Cast Metadata & TV Controls 8.3.2 makes the configured physical-device inventory authoritative:
 
 **Settings → Devices & services → Cast Metadata & TV Controls → Configure → Configure physical device entities**
 
@@ -30,9 +30,9 @@ Select all supported entities that represent one real device. The integration cr
 
 Navigation and restart providers are selected generically using entity domain, availability, device association, config entry, area, device class, and name evidence. **Override entity providers** remains available for ambiguous installations.
 
-Applications and physical inputs are discovered from the selected media-player entities. Version 8.3.1 restores generic application execution, provider fallback, actionable ad-skip diagnostics, and deterministic HACS ZIP delivery.
+Applications and physical inputs are discovered from the selected media-player entities. Version 8.3.2 preserves the 8.3 runtime corrections while using a clean semantic-version transition and verified HACS release ZIP.
 
-Unified TV Card 1.3.1 consumes the generic provider and application attributes, exposes working visibility options, omits unavailable controls, and includes provider/version diagnostics.
+Unified TV Card 1.3.2 preserves the rebuilt generic provider/application handling and publishes the exact validated JavaScript as a verified latest release asset.
 
 ## Hybrid repository structure
 
@@ -57,7 +57,7 @@ HACS does not bulk-import an arbitrary third-party collection. Add each reposito
    - macOS: `Cmd + Shift + R`
    - Windows/Linux: `Ctrl + F5`
 
-Integration 8.3.1 is distributed as a verified HACS ZIP and card 1.3.1 as the exact verified JavaScript release asset.
+Integration 8.3.2 is distributed as a verified HACS ZIP and card 1.3.2 as the exact verified JavaScript release asset.
 
 ## Machine-readable catalogue
 
