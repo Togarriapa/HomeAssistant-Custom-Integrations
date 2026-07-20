@@ -8,8 +8,8 @@ Each installable project lives in its **own public repository** so HACS can inst
 
 | Project | Type | Repository | HACS |
 |---|---|---|---|
-| Cast Metadata & TV Controls 8.3.0 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
-| Unified TV Card 1.3.0 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
+| Cast Metadata & TV Controls 8.3.1 | Integration | [`Togarriapa/HomeAssistant-Cast-Metadata-Controls`](https://github.com/Togarriapa/HomeAssistant-Cast-Metadata-Controls) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Cast-Metadata-Controls&category=integration) |
+| Unified TV Card 1.3.1 | Dashboard | [`Togarriapa/HomeAssistant-Unified-TV-Card`](https://github.com/Togarriapa/HomeAssistant-Unified-TV-Card) | [Open in HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=Togarriapa&repository=HomeAssistant-Unified-TV-Card&category=plugin) |
 
 ## Recommended installation order
 
@@ -22,19 +22,17 @@ Each installable project lives in its **own public repository** so HACS can inst
 
 ## V8 physical-device workflow
 
-Cast Metadata & TV Controls 8.3.0 makes the configured physical-device inventory authoritative:
+Cast Metadata & TV Controls 8.3.1 makes the configured physical-device inventory authoritative:
 
 **Settings → Devices & services → Cast Metadata & TV Controls → Configure → Configure physical device entities**
 
-Select all supported entities that represent one real device. The integration creates or updates the persistent physical group and then chooses the best provider for each capability from that inventory.
+Select all supported entities that represent one real device. The integration creates or updates its persistent physical group and chooses the best provider for each capability from that inventory. It consolidates the controller device owned by this integration; native devices owned by other Home Assistant integrations remain separate registry records.
 
-Navigation and restart providers are selected generically using entity domain, availability, device association, config entry, area, device class, and name evidence. **Override entity providers** is available only for ambiguous installations.
+Navigation and restart providers are selected generically using entity domain, availability, device association, config entry, area, device class, and name evidence. **Override entity providers** remains available for ambiguous installations.
 
-Remote buttons use logical commands such as `HOME`, `BACK`, `SETTINGS`, and `DPAD_CENTER`. When a remote provider expects different values, configure them under **Configure remote commands**. Provider-specific commands remain configuration data rather than hardcoded manufacturer profiles.
+Applications and physical inputs are discovered from the selected media-player entities. Version 8.3.1 restores generic application execution, provider fallback, actionable ad-skip diagnostics, and deterministic HACS ZIP delivery.
 
-Applications and physical inputs are discovered from the selected media-player entities. Native and Cast versions of the same service remain separate routes.
-
-Unified TV Card 1.3.0 consumes the backend's `remote_available` capability, resolves relative Home Assistant artwork URLs, searches all grouped source entities for artwork, and reports actual service failures.
+Unified TV Card 1.3.1 consumes the generic provider and application attributes, exposes working visibility options, omits unavailable controls, and includes provider/version diagnostics.
 
 ## Hybrid repository structure
 
@@ -52,17 +50,14 @@ HACS does not bulk-import an arbitrary third-party collection. Add each reposito
 
 ## Update troubleshooting
 
-If an update does not appear:
-
 1. Open the relevant repository in HACS and select **Update information**.
-2. Confirm it was added under the correct category: Integration or Dashboard.
-3. Use **Redownload** when local HACS metadata is stale.
-4. Restart Home Assistant after integration updates.
-5. Hard-refresh the browser after dashboard-card updates:
+2. Install the offered update normally.
+3. Restart Home Assistant after the integration update.
+4. Hard-refresh the browser once after the card update:
    - macOS: `Cmd + Shift + R`
    - Windows/Linux: `Ctrl + F5`
 
-Backend 8.3.0 and card 1.3.0 use matching source metadata, tags, and full latest GitHub releases so HACS can discover their updates independently.
+Integration 8.3.1 is distributed as a verified HACS ZIP and card 1.3.1 as the exact verified JavaScript release asset.
 
 ## Machine-readable catalogue
 
